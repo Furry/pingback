@@ -9,8 +9,6 @@ function intersect<T>(a: T[], b: T[]): T[] {
 }
 
 server.get("/check", (req, res) => {
-    console.log(req.headers);
-
     const ip = req.headers["x-forwarded-for"] || (req.connection.remoteAddress || req.socket.remoteAddress);
     let anonymity;
     if (intersect(Object.keys(req.headers).map(x => x.toLowerCase()), ["x-forwarded-for", "x-real-ip", "via", "x-forwarded-for", "x-proxy-id", "from", "proxy-connection", "proxy-authorization"]).length == 0) {
@@ -27,4 +25,6 @@ server.get("/check", (req, res) => {
     })
 })
 
-server.listen(80);
+server.listen(80, () => {
+    console.log("Listening on port 80");
+});
